@@ -18,6 +18,8 @@
 *.la
 *.a
 *.lib
+*.obj
+*.d
 
 # Packages #
 ############
