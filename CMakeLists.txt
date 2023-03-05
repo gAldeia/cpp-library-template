@@ -31,6 +31,10 @@ project(LibTemplateCMake
 # See https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html
 include(GNUInstallDirs)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 # Control where libraries and executables are placed during the build.
 # With the following settings executables are placed in <the top level of the
 # build tree>/bin and libraries/archives in <top level of the build tree>/lib.
@@ -97,12 +101,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 # Shared/Dynamic or Static library?
 option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
 
-# Build test related commands?
-option(BUILD_TESTING "Create tests using CMake" OFF)
-if(BUILD_TESTING)
-    enable_testing()
-endif()
-
 # Enable RPATH support for installed binaries and libraries
 include(AddInstallRPATHSupport)
 add_install_rpath_support(BIN_DIRS "${CMAKE_INSTALL_FULL_BINDIR}"
@@ -147,8 +145,10 @@ install_basic_package_files(${PROJECT_NAME}
 include(AddUninstallTarget)
 
 # Add integration tests (unit tests for each library should be in each sublibrary directory).
+option(BUILD_TESTING "Create tests using gtest" OFF)
 if(BUILD_TESTING)
-    add_subdirectory(test)
+    enable_testing()
+    add_subdirectory(tests)
 endif()
 
 # Add targets related to doxygen documention generation
